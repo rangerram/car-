@@ -43,3 +43,35 @@ private void button1_Click(object sender, EventArgs e)
             }
             
         }
+=======================================================================================================================
+ //打开新的窗口
+ private void button2_Click(object sender, EventArgs e)
+        {
+
+            int index = dataGridView1.SelectedRows[0].Index;
+            MessageBox.Show(index.ToString());   //弹出索引号
+            Car car = Cars[index];    //绑定车的索引号
+            Formedit edit = new Formedit(); //定义新窗口
+            edit.car = car;   //把车辆索引号赋值给新窗口的属性
+            edit.Show();   //弹出窗口
+            cheliang();    //重新绑定
+        }
+=======================================================================================================================        
+ //修改数据库
+    private void button1_Click(object sender, EventArgs e)
+        {
+            using (SqlConnection conn = new SqlConnection(@"server=DESKTOP-P85DE3D\SA;database=MyCar;user=sa;pwd=sajndx"))
+            {
+                conn.Open();
+                string sql = ("update Car set title =@title ,speed =@speed, info =@info where id =@id");
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add(new SqlParameter("@id", car.id));
+                cmd.Parameters.Add(new SqlParameter("@title", textBox2.Text));
+                cmd.Parameters.Add(new SqlParameter("@speed", textBox3.Text));
+                cmd.Parameters.Add(new SqlParameter("@info", textBox4.Text));
+                int rows = cmd.ExecuteNonQuery();//执行并返回影响行数
+                MessageBox.Show("修改" + rows + "行");
+            }
+        }
+        
+        
