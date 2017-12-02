@@ -24,3 +24,22 @@
             }
 
         }
+===================================================================================================================
+//删除某一行
+private void button1_Click(object sender, EventArgs e)
+        {
+            int id = Convert.ToInt32(dataGridView1.SelectedRows[0].Cells[0].Value);
+            MessageBox.Show(id + "");
+            using (SqlConnection conn = new SqlConnection(@"server=DESKTOP-P85DE3D\SA;database=MyCar;user=sa;pwd=sajndx"))
+            {
+                
+                conn.Open();
+                string sql = ("delete from Car where id=@id");
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add(new SqlParameter("@id", id));    
+                int rows = cmd.ExecuteNonQuery();//执行并返回影响行数
+                MessageBox.Show("成功删除" + rows + "行");
+                cheliang();
+            }
+            
+        }
