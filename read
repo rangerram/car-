@@ -1,0 +1,26 @@
+       //数据库的读取并显示
+       List<Car> Cars = null;
+        public void cheliang()
+        {
+            Cars = new List<Car>();
+            using (SqlConnection conn = new SqlConnection(@"server=DESKTOP-P85DE3D\SA;database=MyCar;user=sa;pwd=sajndx"))
+            {
+               conn.Open();
+                string sql = ("select* from Car");
+                SqlCommand cmd = new SqlCommand(sql, conn);  //执行sql语句
+                SqlDataReader sdr = cmd.ExecuteReader();    //读取数据库
+                while (sdr.Read())
+                {
+                    //赋值数据库的值
+                    Car car = new Car();
+                    car.id = Convert.ToInt32(sdr["id"]);
+                    car.title = Convert.ToString(sdr["title"]);
+                    car.speed = Convert.ToInt32(sdr["speed"]);
+                    car.info = Convert.ToString(sdr["info"]);
+                    Cars.Add(car);
+                }
+                dataGridView1.DataSource = Cars;     //把cars的值显示在dateGridView   
+                sdr.Close();         //关闭连接
+            }
+
+        }
